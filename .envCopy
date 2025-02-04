@@ -1,0 +1,2 @@
+DATABASE_URL="<seuBancoDeDados>://<seuUsuario>:<suaSenha>@localhost:<portaDoSeuDb>/<nomeDoDb>" 
+não incluir os <> na configuração do seu banco
