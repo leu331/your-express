@@ -9,6 +9,6 @@ const app = express()
 app.use(express.json())
 
 app.use(routes)
-app.use(errorHandling as ErrorRequestHandler)
+app.use(errorHandling)
 
 export {app}

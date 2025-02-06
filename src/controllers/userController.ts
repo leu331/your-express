@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod"
 import {hash} from "bcrypt"
-import {prisma} from "../../prisma"
+import {prisma} from "../database/prisma"
 import { UserRole } from "@prisma/client";
+import { AppError } from "@/utils/AppError";
 
 export class UserController {
     async create(request: Request, response: Response, next: NextFunction ): Promise<void> {
@@ -16,6 +17,14 @@ export class UserController {
 
         const hashedPassword = await hash(password, 8)
 
+        const existingUser = await prisma.user.findUnique({
+            where: { email },
+        });
+
+        if (existingUser) {
+            throw new AppError("Email já está em uso", 409);
+        }
+
         const user = await prisma.user.create({
            data: {
             name,
@@ -24,6 +33,9 @@ export class UserController {
            }
 
         })
+
+      
+
 
         const {password: _, ...userWithoutPassword} = user
 

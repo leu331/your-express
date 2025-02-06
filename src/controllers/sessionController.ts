@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction} from "express"
-import {prisma} from "../../prisma"
+import {prisma} from "../database/prisma"
 import {z} from "zod"
 import { AppError } from "@/utils/AppError"
 import { compare } from "bcrypt"
@@ -46,6 +46,6 @@ export class SessionController {
             subject: user.id,
             expiresIn: "1d"  })
 
-        response.json({Token: token})
+        response.json({Token: token, user: user})
         }
     }
